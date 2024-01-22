@@ -1,7 +1,8 @@
 import React, { useMemo } from "react";
 import { FlatList, Image, View } from "react-native";
 import { useTheme } from "@react-navigation/native";
-import Icon, { IconType } from "react-native-dynamic-vector-icons";
+// import Icon, { IconType } from "react-native-dynamic-vector-icons";
+import Icon from "react-native-vector-icons/Ionicons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as NavigationService from "react-navigation-helpers";
 import RNBounceable from "@freakycoder/react-native-bounceable";
@@ -14,15 +15,20 @@ import CardItem from "./components/card-item/CardItem";
 /**
  * ? Shared Imports
  */
-import { SCREENS } from "@shared-constants";
+import { STACK_SCREENS } from "@shared-constants";
 import Text from "@shared-components/text-wrapper/TextWrapper";
 import fonts from "@fonts";
+const IonIcon = Icon as React.ElementType;
 
-const profileURI =
-  // eslint-disable-next-line max-len
-  "https://images.unsplash.com/photo-1544568100-847a948585b9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2574&q=80";
+interface HomeScreenProps { }
 
-interface HomeScreenProps {}
+interface FlatListObj {
+    name: string;
+    description: string;
+    language: string;
+    star: number;
+    fork: number;
+}
 
 const HomeScreen: React.FC<HomeScreenProps> = () => {
   const theme = useTheme();
@@ -30,7 +36,7 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
   const styles = useMemo(() => createStyles(theme), [theme]);
 
   const handleItemPress = () => {
-    NavigationService.push(SCREENS.DETAIL);
+    NavigationService.push(STACK_SCREENS.DETAIL);
   };
 
   /* -------------------------------------------------------------------------- */
@@ -39,12 +45,17 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
 
   const MenuButton = () => (
     <RNBounceable>
-      <Icon
+      <IonIcon
+        name="menu"
+        color={colors.iconBlack}
+        size={30}
+      />
+      {/* <Icon
         name="menu"
         type={IconType.Ionicons}
         color={colors.iconBlack}
         size={30}
-      />
+      /> */}
     </RNBounceable>
   );
 
@@ -53,8 +64,8 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
       <MenuButton />
       <Image
         resizeMode="cover"
-        source={{ uri: profileURI }}
-        style={styles.profilePicImageStyle}
+        source={require('../../assets/images/profile.png')}
+        style={[styles.profilePicImageStyle, { backgroundColor: 'black' }]}
       />
     </View>
   );
@@ -63,6 +74,9 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
     <View style={styles.listContainer}>
       <FlatList
         data={MockData}
+        keyExtractor={(_item: FlatListObj, index) => index.toString()}
+        showsVerticalScrollIndicator={false}
+        ListFooterComponent={<View style={{height: 100}} />}
         renderItem={({ item }) => (
           <CardItem data={item} onPress={handleItemPress} />
         )}

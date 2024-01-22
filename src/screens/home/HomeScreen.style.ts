@@ -49,6 +49,7 @@ export default (theme: ExtendedTheme) => {
       flexDirection: "row",
       alignItems: "center",
       justifyContent: "space-between",
+      // backgroundColor:'red',
     },
     contentContainer: {
       flex: 1,

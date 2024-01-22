@@ -6,3 +6,8 @@ export const SCREENS = {
   PROFILE: "Profile",
   DETAIL: "Detail",
 };
+
+export const STACK_SCREENS = {
+  HOME: "HomeScreen",
+  DETAIL: "DetailScreen",
+};

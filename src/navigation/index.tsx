@@ -1,14 +1,15 @@
 import React from "react";
 import { useColorScheme } from "react-native";
-import Icon, { IconType } from "react-native-dynamic-vector-icons";
+// import Icon, { IconType } from "react-native-dynamic-vector-icons";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import { isReadyRef, navigationRef } from "react-navigation-helpers";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import Icon from "react-native-vector-icons/Ionicons";
 /**
  * ? Local & Shared Imports
  */
-import { SCREENS } from "@shared-constants";
+import { SCREENS, STACK_SCREENS } from "@shared-constants";
 import { DarkTheme, LightTheme, palette } from "@theme/themes";
 // ? Screens
 import HomeScreen from "@screens/home/HomeScreen";
@@ -20,6 +21,7 @@ import NotificationScreen from "@screens/notification/NotificationScreen";
 // ? If you want to use stack or tab or both
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
+const IonIcon = Icon as React.ElementType;
 
 const Navigation = () => {
   const scheme = useColorScheme();
@@ -54,16 +56,15 @@ const Navigation = () => {
         break;
     }
     return (
-      <Icon
+      <IonIcon
         name={iconName}
-        type={IconType.Ionicons}
-        size={size}
         color={color}
+        size={size}
       />
     );
   };
 
-  const renderTabNavigation = () => {
+  const RenderTabNavigation = () => {
     return (
       <Tab.Navigator
         screenOptions={({ route }) => ({
@@ -97,8 +98,8 @@ const Navigation = () => {
       theme={isDarkMode ? DarkTheme : LightTheme}
     >
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name={SCREENS.HOME} component={renderTabNavigation} />
-        <Stack.Screen name={SCREENS.DETAIL}>
+      <Stack.Screen name={STACK_SCREENS.HOME} component={RenderTabNavigation} /> 
+        <Stack.Screen name={STACK_SCREENS.DETAIL}>
           {(props) => <DetailScreen {...props} />}
         </Stack.Screen>
       </Stack.Navigator>
